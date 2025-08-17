@@ -27,13 +27,24 @@ def classify(image_path:str, model_path:str, detection_method:object):
 
     contours = detection_method(image)
 
+    height, width = image.shape[:2]
+
     for cnt in contours:
         x, y, w, h = cv.boundingRect(cnt)
 
         if w*h < 500:
             continue
 
+        x = max(0, x)
+        y = max(0, y)
+        w = min(w, width - x)
+        h = min(h, height - y)
+
         roi = image[y:y+h, x:x+w]
+
+        if roi is None or roi.size == 0 or roi.shape[0] == 0 or roi.shape[1] == 0:
+            continue
+
         features = extract_features(roi)
         label = clf.predict([features])[0]
 

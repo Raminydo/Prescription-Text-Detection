@@ -17,7 +17,7 @@ from PIL import Image
 import cv2 as cv
 import time
 import glob
-from PREPROCESSING.detection_models import text_detection_ocr, text_detection
+from PREPROCESSING.detection_models import text_detection_ocr, text_detection, merged_detection, text_detection_ss
 from CLASSIFICATION_MODEL.processing import classify
 # endregion
 
@@ -30,8 +30,10 @@ st.markdown("<h1 style='text-align: center; color: lightblue;'>Medical Prescript
 
 # models
 MODELS = {
-    'Detector 1': text_detection_ocr,
-    'Detector 2': text_detection
+    'Detector 1': text_detection_ocr,  # EasyOCR
+    'Detector 2': text_detection,      # Custom
+    'Detector 3': merged_detection,    # Merged 1 & 2
+    'Detector 4': text_detection_ss,   # Selective Search
 }
 
 # initialize session state
@@ -40,6 +42,9 @@ if 'processed_image' not in st.session_state:
 
 if 'radio_disabled' not in st.session_state:
     st.session_state.radio_disabled = False
+
+if 'elapsed_time' not in st.session_state:
+    st.session_state.elapsed_time = 0
 
 # columns
 col1, col2 = st.columns(2, gap='medium', border=True)
@@ -79,9 +84,15 @@ with col1:
         with open(file_path, 'wb') as file:
             file.write(uploaded_file.getbuffer())
 
+
+
+
         # main process for detection
-        detection_func = classify(file_path, 'boosted_model.pkl', MODELS[selected_model])
-        st.session_state.processed_image= Image.fromarray(cv.cvtColor(detection_func, cv.COLOR_BGR2RGB))
+        start_time = time.time()    
+        detected = classify(file_path, 'boosted_model.pkl', MODELS[selected_model])
+        end_time = time.time()
+        st.session_state.elapsed_time = end_time - start_time
+        st.session_state.processed_image= Image.fromarray(cv.cvtColor(detected, cv.COLOR_BGR2RGB))
         progress_bar.empty()
 
 with col2:
@@ -92,14 +103,17 @@ with col2:
         st.image(
             st.session_state.processed_image
         )
-        st.success('Detection Completed!')
 
         files = glob.glob('TEMP/*')
         for f in files:
             os.remove(f)
+    
+        st.caption(f'Detection method: {selected_model}')
+        st.caption(f'Elapsed time for detecting text areas: {round(st.session_state.elapsed_time)} seconds')
+
+        st.success('Detection Completed!')
 
 
-st.markdown("NOTE: _If a detection method didn't work properly or an error was raised, please switch to another one._")
 # endregion
 
 

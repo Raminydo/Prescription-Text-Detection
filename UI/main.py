@@ -17,7 +17,7 @@ from PIL import Image
 import cv2 as cv
 import time
 import glob
-from PREPROCESSING.detection_models import text_detection_ocr, text_detection, merged_detection, text_detection_ss
+from PREPROCESSING.detection_models import *
 from CLASSIFICATION_MODEL.processing import classify
 # endregion
 
@@ -33,7 +33,13 @@ MODELS = {
     'Detector 1': text_detection_ocr,  # EasyOCR
     'Detector 2': text_detection,      # Custom
     'Detector 3': merged_detection,    # Merged 1 & 2
-    'Detector 4': text_detection_ss,   # Selective Search
+    'Detector 4': merged_detection2,      # New Merged 1 & 2
+    # 'Detector 4': text_detection_ss,   # Selective Search
+    # 'Detector 5': text_detection_frcnn, # faster r-cnn
+    # 'Detector 6': text2_detection,    # new c
+    #'Detector 7': detect_craft ,         # CRAFT
+    # 'Detector 7': detect_text_contours_trocr,   # trOCR
+    #'Detector 8': detect_text_contours_doctr    # docTR
 }
 
 # initialize session state

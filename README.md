@@ -85,7 +85,7 @@ This application contains 4 methods for detecting the text regions:
 - Detector 4: merge of detector 1 & detector 2 (version 2)
 
 more tested methods(codes available, but not used):
-- a new custom version like Detector 1
+- a new custom version like Detector 2
 - Selective Search
 - Faster r-cnn
 - CRAFT

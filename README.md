@@ -3,6 +3,8 @@
 This application is used for detecting printed and handwritten text regions of a medical prescription image.
 This model supports texts in English and Farsi(Persian) language.
 
+ON PROGRESS...
+
 
 Can be run:
 
@@ -79,6 +81,16 @@ This application contains 2 methods for detecting the text regions:
     
 - Detector 1: contours and EasyOCR (default)
 - Detector 2: contours, adaptivethresholding and morphology
+- Detector 3: merge of detector 1 & detector 2 (version 1)
+- Detector 4: merge of detector 1 & detector 2 (version 2)
+
+more tested methods(codes available, but not used):
+- a new custom version like Detector 1
+- Selective Search
+- Faster r-cnn
+- CRAFT
+- trOCR
+- docTR
 
 
 ## **output sample**
@@ -92,6 +104,16 @@ project/
 |--- CLASSIFICATION_MODEL/
 |     |--- classification_model.py
 |     |--- processing.py
+|
+|--- FASTER_RCNN_PROGRESS(not used)/
+|     |--- annotations.json
+|     |--- annotations.py
+|     |--- datase_prepration.py
+|     |--- train_frcnn.py
+|     |--- utils.py
+|
+|--- MERGE/
+|     |--- utils.py
 |
 |--- data/
 |     |--- test/

@@ -77,7 +77,7 @@ The approach used in this application has two main steps:
 - Detecting all text areas
 - Classify the detected areas into printed or handwritten
 
-This application contains 2 methods for detecting the text regions:
+This application contains 4 methods for detecting the text regions:
     
 - Detector 1: contours and EasyOCR (default)
 - Detector 2: contours, adaptivethresholding and morphology
